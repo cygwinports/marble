@@ -1,50 +1,88 @@
-inherit python kde4
+inherit kf5
 
 NAME="marble"
-VERSION=15.04.3
+VERSION=16.08.3
 RELEASE=1
 CATEGORY="Science"
 SUMMARY="KDE geographical map"
 DESCRIPTION="Part of the KDE education suite"
 
-PATCH_URI="4.12.5-no-touch.patch"
+PATCH_URI="
+	16.08.3-cmake-install.patch
+	16.08.3-cygwin-ftm.patch
+	16.08.3-jerusalem.patch
+	16.08.3-kpart-prefix.patch
+"
 
-PKG_NAMES="marble marble-qt marble-common marble-plugins
-	libmarblewidget21 libmarblewidget-devel libastro1 libastro-devel"
-# python-pykde4-marble
-marble_OBSOLETES="plasma-applet-worldclock"
-marble_REQUIRES="kde-runtime marble-common marble-plugins"
-marble_CONTENTS="etc/ usr/bin/marble.exe usr/lib/kde4/*.dll
-	usr/share/appdata/
-	usr/share/applications/kde4/marble.desktop
-	usr/share/applications/kde4/marble_*.desktop
-	usr/share/kde4/config.kcfg/ usr/share/kde4/services/"
-marble_qt_REQUIRES="marble-common marble-plugins"
-marble_qt_CONTENTS="usr/bin/marble-*.exe
-	usr/share/applications/kde4/marble-*.desktop"
-marble_common_CONTENTS="etc/ usr/share/doc/ usr/share/icons/ usr/share/kde4/apps/marble/ usr/share/mime/"
-# the imports are really only used by marble-touch (Meego)
-marble_plugins_REQUIRES="marble-common"
-marble_plugins_CONTENTS="usr/lib/kde4/plugins/designer/
-	usr/lib/kde4/plugins/marble/
-	usr/lib/qt4/imports/org/kde/edu/marble/"
-libmarblewidget21_CATEGORY="Libs"
-libmarblewidget21_SUMMARY="${SUMMARY} library (runtime)"
-libmarblewidget21_CONTENTS="usr/bin/cygmarblewidget-21.dll"
-libmarblewidget_devel_CATEGORY="Libs"
-libmarblewidget_devel_SUMMARY="${SUMMARY} library (development)"
-libmarblewidget_devel_REQUIRES="libQtCore4-devel libQtDBus4-devel libQtGui4-devel libQtNetwork4-devel libQtWebKit4-devel libQtSvg4-devel libQtXml4-devel"
-libmarblewidget_devel_CONTENTS="usr/include/marble/ usr/lib/libmarblewidget.dll.a usr/share/kde4/apps/cmake/"
+PKG_NAMES="marble marble-qt marble-common plasma-marble
+	libmarblewidget-qt5_25 libmarblewidget-qt5-devel marblewidget-data
+	libastro1 libastro-devel"
+marble_REQUIRES="marble-common"
+marble_CONTENTS="
+	etc/xdg/marble.*
+	usr/bin/marble.exe
+	usr/lib/qt5/plugins/cygmarblethumbnail.dll
+	usr/lib/qt5/plugins/libmarble_part.dll
+	usr/share/applications/marble.desktop
+	usr/share/applications/marble_*.desktop
+	usr/share/config.kcfg/
+	usr/share/doc/HTML/en/marble/
+	usr/share/kservices5/marble*
+	usr/share/kxmlgui5/marble/
+	usr/share/metainfo/marble.appdata.xml
+"
+marble_qt_REQUIRES="marble-common"
+marble_qt_CONTENTS="
+	usr/bin/cygmarbledeclarative.dll
+	usr/bin/marble-qt.exe
+	usr/share/applications/marble-qt.desktop
+"
+marble_common_CONTENTS="
+	etc/postinstall/
+	usr/share/doc/marble/
+	usr/share/icons/hicolor/*/*/marble.*
+	usr/share/mime/packages/*
+"
+plasma_marble_CATEGORY="KDE"
+plasma_marble_OBSOLETES="plasma-applet-worldclock"
+plasma_marble_CONTENTS="
+	usr/lib/qt5/plugins/plasma_runner_marble.dll
+	usr/share/kservices5/plasma-runner-marble.desktop
+"
+libmarblewidget_qt5_25_CATEGORY="Libs"
+libmarblewidget_qt5_25_REQUIRES="marblewidget-data"
+libmarblewidget_qt5_25_SUMMARY="${SUMMARY} library (runtime)"
+libmarblewidget_qt5_25_CONTENTS="
+	usr/bin/cygmarblewidget-qt5-25.dll
+	usr/lib/qt5/plugins/marble/25/
+"
+libmarblewidget_qt5_devel_CATEGORY="Libs"
+libmarblewidget_qt5_devel_SUMMARY="${SUMMARY} library (development)"
+libmarblewidget_qt5_devel_REQUIRES="libQt5Core-devel libQt5Gui-devel"
+libmarblewidget_qt5_devel_CONTENTS="
+	usr/include/marblewidget-qt5/marble/
+	usr/lib/cmake/Marble/
+	usr/lib/libmarblewidget-qt5.dll.a
+	usr/lib/qt5/plugins/designer/
+"
+marblewidget_data_CONTENTS="
+	usr/share/marble/data/
+"
 libastro1_CATEGORY="Libs"
 libastro1_SUMMARY="KDE astronomical library"
 libastro1_CONTENTS="usr/bin/cygastro-1.dll"
 libastro_devel_CATEGORY="Libs"
 libastro_devel_SUMMARY=${libastro1_SUMMARY}
-libastro_devel_CONTENTS="usr/include/astro/ usr/lib/libastro.dll.a"
-python_pykde4_marble_CATEGORY="Python"
-python_pykde4_marble_SUMMARY="${SUMMARY} library (Python bindings)"
-python_pykde4_marble_REQUIRES="python-pyqt4"
-python_pykde4_marble_CONTENTS=${PYTHON_SITELIB#/}"/PyKDE4/marble.dll"
+libastro_devel_CONTENTS="
+	usr/include/astro/
+	usr/lib/cmake/Astro/
+	usr/lib/libastro.dll.a
+"
+PKG_IGNORE="
+	usr/lib/qt5/plugins/libmarble_part.dll.a
+"
 
-# broken in 4.13
-CYGCMAKE_ARGS="-DEXPERIMENTAL_PYTHON_BINDINGS=OFF"
+CYGCMAKE_ARGS="
+	-DMARBLE_DATA_PATH="/usr/share/marble/data"
+	-DMARBLE_PLUGIN_PATH="/usr/lib/qt5/plugins/marble/25"
+"

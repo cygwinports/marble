@@ -1,0 +1,61 @@
+--- origsrc/marble-16.08.3/MarbleMacros.cmake	2016-10-21 16:51:21.000000000 -0500
++++ src/marble-16.08.3/MarbleMacros.cmake	2017-02-02 21:12:42.909181800 -0600
+@@ -58,7 +58,7 @@ qt_add_resources( _src ../../../apps/mar
+ add_library( ${_target_name} MODULE ${_src} )
+ target_link_libraries( ${_target_name} ${${_target_name}_LIBS}
+                                        marblewidget )
+-install( TARGETS ${_target_name} DESTINATION ${QT_PLUGINS_DIR}/designer )
++install( TARGETS ${_target_name} DESTINATION ${QT_PLUGIN_INSTALL_DIR}/designer )
+ 
+ set_target_properties( ${_target_name} PROPERTIES 
+                        INSTALL_RPATH_USE_LINK_PATH TRUE  
+--- origsrc/marble-16.08.3/src/lib/astro/CMakeLists.txt	2016-10-21 16:51:21.000000000 -0500
++++ src/marble-16.08.3/src/lib/astro/CMakeLists.txt	2017-02-02 16:37:36.982305900 -0600
+@@ -63,6 +63,8 @@ else()
+   install(TARGETS astro
+     EXPORT AstroTargets
+     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   )
+ endif()
+ 
+--- origsrc/marble-16.08.3/src/lib/marble/CMakeLists.txt	2016-10-21 16:51:21.000000000 -0500
++++ src/marble-16.08.3/src/lib/marble/CMakeLists.txt	2016-11-14 03:18:22.340553200 -0600
+@@ -436,7 +436,7 @@ set_target_properties(marblewidget  PROP
+ )
+ 
+ target_include_directories(marblewidget
+-    INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>"
++    INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/marblewidget-qt5>"
+ )
+ 
+ # choose the correct target install library path
+@@ -447,6 +447,8 @@ elseif(APPLE)
+ else()
+   install(TARGETS marblewidget
+     EXPORT MarbleTargets
++    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ endif()
+ 
+@@ -621,7 +624,7 @@ install( FILES
+     routing/RoutingModel.h
+     routing/RoutingProfile.h
+ 
+-    DESTINATION ${INCLUDE_INSTALL_DIR}/marble
++    DESTINATION ${INCLUDE_INSTALL_DIR}/marblewidget-qt5/marble
+ )
+ 
+ 
+--- origsrc/marble-16.08.3/src/lib/marble/declarative/CMakeLists.txt	2016-10-21 16:51:21.000000000 -0500
++++ src/marble-16.08.3/src/lib/marble/declarative/CMakeLists.txt	2016-11-14 11:22:17.421763100 -0600
+@@ -63,5 +63,6 @@ set_target_properties( marbledeclarative
+ if(WIN32)
+   install(TARGETS marbledeclarative RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX} ARCHIVE DESTINATION lib)
+ else()
+-  install(TARGETS marbledeclarative LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
++  install(TARGETS marbledeclarative LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++                                    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+ endif()

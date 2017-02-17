@@ -1,0 +1,15 @@
+--- origsrc/marble-16.08.3/CMakeLists.txt	2016-10-21 16:51:21.000000000 -0500
++++ src/marble-16.08.3/CMakeLists.txt	2017-02-02 16:37:30.363144800 -0600
+@@ -132,9 +132,11 @@ endif()
+ 
+ SET(CMAKE_AUTOMOC TRUE)
+ 
+-# Use M_PI under Windows
++# Expose M_PI
+ if( WIN32 )
+     add_definitions( -D_USE_MATH_DEFINES )
++else ( WIN32 )
++    add_definitions( -D_DEFAULT_SOURCE )
+ endif( WIN32 )
+ 
+ ####################################################
