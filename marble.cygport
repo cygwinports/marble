@@ -1,7 +1,7 @@
 inherit kf5
 
 NAME="marble"
-VERSION=16.08.3
+VERSION=17.04.3
 RELEASE=1
 CATEGORY="Science"
 SUMMARY="KDE geographical map"
@@ -10,12 +10,12 @@ DESCRIPTION="Part of the KDE education suite"
 PATCH_URI="
 	16.08.3-cmake-install.patch
 	16.08.3-cygwin-ftm.patch
-	16.08.3-jerusalem.patch
+	17.04.3-jerusalem.patch
 	16.08.3-kpart-prefix.patch
 "
 
 PKG_NAMES="marble marble-qt marble-common plasma-marble
-	libmarblewidget-qt5_25 libmarblewidget-qt5-devel marblewidget-data
+	libmarblewidget-qt5_27 libmarblewidget-qt5-devel marblewidget-data
 	libastro1 libastro-devel"
 marble_REQUIRES="marble-common"
 marble_CONTENTS="
@@ -23,19 +23,21 @@ marble_CONTENTS="
 	usr/bin/marble.exe
 	usr/lib/qt5/plugins/cygmarblethumbnail.dll
 	usr/lib/qt5/plugins/libmarble_part.dll
-	usr/share/applications/marble.desktop
 	usr/share/applications/marble_*.desktop
+	usr/share/applications/org.kde.marble.desktop
 	usr/share/config.kcfg/
-	usr/share/doc/HTML/en/marble/
+	usr/share/doc/HTML/*/marble/
 	usr/share/kservices5/marble*
 	usr/share/kxmlgui5/marble/
-	usr/share/metainfo/marble.appdata.xml
+	usr/share/locale/*/LC_MESSAGES/marble.mo
+	usr/share/metainfo/org.kde.marble.appdata.xml
 "
 marble_qt_REQUIRES="marble-common"
 marble_qt_CONTENTS="
 	usr/bin/cygmarbledeclarative.dll
 	usr/bin/marble-qt.exe
-	usr/share/applications/marble-qt.desktop
+	usr/share/applications/org.kde.marble-qt.desktop
+	usr/share/locale/*/LC_MESSAGES/marble_qt.qm
 "
 marble_common_CONTENTS="
 	etc/postinstall/
@@ -47,14 +49,24 @@ plasma_marble_CATEGORY="KDE"
 plasma_marble_OBSOLETES="plasma-applet-worldclock"
 plasma_marble_CONTENTS="
 	usr/lib/qt5/plugins/plasma_runner_marble.dll
+	usr/lib/qt5/qml/org/kde/marble/private/plasma/
+	usr/share/kservices5/plasma-applet-org.kde.plasma.worldclock.desktop
 	usr/share/kservices5/plasma-runner-marble.desktop
+	usr/share/kservices5/plasma-wallpaper-org.kde.plasma.wallpaper.worldmap.desktop
+	usr/share/locale/*/LC_MESSAGES/plasma_applet_org.kde.plasma.worldclock.mo
+	usr/share/locale/*/LC_MESSAGES/plasma_runner_marble.mo
+	usr/share/locale/*/LC_MESSAGES/plasma_wallpaper_org.kde.plasma.worldmap.mo
+	usr/share/metainfo/org.kde.plasma.wallpaper.worldmap.appdata.xml
+	usr/share/metainfo/org.kde.plasma.worldclock.appdata.xml
+	usr/share/plasma/plasmoids/org.kde.plasma.worldclock/
+	usr/share/plasma/wallpapers/org.kde.plasma.wallpaper.worldmap/
 "
-libmarblewidget_qt5_25_CATEGORY="Libs"
-libmarblewidget_qt5_25_REQUIRES="marblewidget-data"
-libmarblewidget_qt5_25_SUMMARY="${SUMMARY} library (runtime)"
-libmarblewidget_qt5_25_CONTENTS="
-	usr/bin/cygmarblewidget-qt5-25.dll
-	usr/lib/qt5/plugins/marble/25/
+libmarblewidget_qt5_27_CATEGORY="Libs"
+libmarblewidget_qt5_27_REQUIRES="marblewidget-data"
+libmarblewidget_qt5_27_SUMMARY="${SUMMARY} library (runtime)"
+libmarblewidget_qt5_27_CONTENTS="
+	usr/bin/cygmarblewidget-qt5-27.dll
+	usr/lib/qt5/plugins/marble/27/
 "
 libmarblewidget_qt5_devel_CATEGORY="Libs"
 libmarblewidget_qt5_devel_SUMMARY="${SUMMARY} library (development)"
@@ -63,6 +75,7 @@ libmarblewidget_qt5_devel_CONTENTS="
 	usr/include/marblewidget-qt5/marble/
 	usr/lib/cmake/Marble/
 	usr/lib/libmarblewidget-qt5.dll.a
+	usr/lib/qt5/mkspecs/modules/qt_Marble.pri
 	usr/lib/qt5/plugins/designer/
 "
 marblewidget_data_CONTENTS="
@@ -84,5 +97,5 @@ PKG_IGNORE="
 
 CYGCMAKE_ARGS="
 	-DMARBLE_DATA_PATH="/usr/share/marble/data"
-	-DMARBLE_PLUGIN_PATH="/usr/lib/qt5/plugins/marble/25"
+	-DMARBLE_PLUGIN_PATH="/usr/lib/qt5/plugins/marble/27"
 "
