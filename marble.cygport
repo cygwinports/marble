@@ -1,7 +1,7 @@
 inherit kf5
 
 NAME="marble"
-VERSION=17.04.3
+VERSION=17.08.3
 RELEASE=1
 CATEGORY="Science"
 SUMMARY="KDE geographical map"
@@ -15,7 +15,7 @@ PATCH_URI="
 "
 
 PKG_NAMES="marble marble-qt marble-common plasma-marble
-	libmarblewidget-qt5_27 libmarblewidget-qt5-devel marblewidget-data
+	libmarblewidget-qt5_28 libmarblewidget-qt5-devel marblewidget-data
 	libastro1 libastro-devel"
 marble_REQUIRES="marble-common"
 marble_CONTENTS="
@@ -61,12 +61,12 @@ plasma_marble_CONTENTS="
 	usr/share/plasma/plasmoids/org.kde.plasma.worldclock/
 	usr/share/plasma/wallpapers/org.kde.plasma.wallpaper.worldmap/
 "
-libmarblewidget_qt5_27_CATEGORY="Libs"
-libmarblewidget_qt5_27_REQUIRES="marblewidget-data"
-libmarblewidget_qt5_27_SUMMARY="${SUMMARY} library (runtime)"
-libmarblewidget_qt5_27_CONTENTS="
-	usr/bin/cygmarblewidget-qt5-27.dll
-	usr/lib/qt5/plugins/marble/27/
+libmarblewidget_qt5_28_CATEGORY="Libs"
+libmarblewidget_qt5_28_REQUIRES="marblewidget-data"
+libmarblewidget_qt5_28_SUMMARY="${SUMMARY} library (runtime)"
+libmarblewidget_qt5_28_CONTENTS="
+	usr/bin/cygmarblewidget-qt5-28.dll
+	usr/lib/qt5/plugins/marble/28/
 "
 libmarblewidget_qt5_devel_CATEGORY="Libs"
 libmarblewidget_qt5_devel_SUMMARY="${SUMMARY} library (development)"
@@ -97,5 +97,5 @@ PKG_IGNORE="
 
 CYGCMAKE_ARGS="
 	-DMARBLE_DATA_PATH="/usr/share/marble/data"
-	-DMARBLE_PLUGIN_PATH="/usr/lib/qt5/plugins/marble/27"
+	-DMARBLE_PLUGIN_PATH="/usr/lib/qt5/plugins/marble/28"
 "
